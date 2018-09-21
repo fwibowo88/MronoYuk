@@ -6,12 +6,13 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
+import java.time.LocalDateTime
 
 var places = ArrayList<Place>();
 var discounts = ArrayList<Discount>();
 var orders = ArrayList<Order>();
 var tmpSpinner = ArrayList<String>();
-
+var price:Double = 3000.0
 
 fun GeneratePlaces()
 {
@@ -73,19 +74,70 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val adapterFrom = ArrayAdapter(this, android.R.layout.simple_spinner_item, tmpSpinner)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerMainFrom.adapter = adapter
+        adapterFrom.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerMainFrom.adapter = adapterFrom
+
+        val adapterTo = ArrayAdapter(this, android.R.layout.simple_spinner_item, tmpSpinner)
+        adapterTo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerMainTo.adapter = adapterTo
 
 
         buttonMainHistory.setOnClickListener{
-
+            Toast.makeText(this,spinnerMainFrom.selectedItem.toString().trim(),Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,spinnerMainTo.selectedItem.toString().trim(),Toast.LENGTH_SHORT).show()
             //var intentHistory = Intent(this,HistoryActivity::class.java)
             //startActivity(intentHistory)
         }
 
         buttonMainMrono.setOnClickListener{
-            var intentMrono =Intent(this,OrderActivity::class.java)
-            startActivity(intentMrono)
+            if(spinnerMainFrom.selectedItem.toString().trim() == spinnerMainTo.selectedItem.toString().trim())
+            {
+                Toast.makeText(this,"Lokasi Penjemputan & Tujuan Sama",Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+                var origin = spinnerMainFrom.selectedItem.toString().trim()
+                var destination = spinnerMainTo.selectedItem.toString().trim()
+
+                var tmpOrigin = Place(0.0,"UNKNOWN")
+                var tmpDestination = Place(0.0,"UNKNOWN")
+                var res = 0.0
+                var distance = 0.0
+                for(x in places)
+                {
+                    if(x.Name == origin)
+                    {
+                        tmpOrigin.Name = x.Name
+                        tmpOrigin.Location = x.Location
+                    }
+
+                    if(x.Name == destination)
+                    {
+                        tmpDestination.Name = x.Name
+                        tmpDestination.Location = x.Location
+                    }
+                }
+                distance = tmpOrigin.Location - tmpDestination.Location
+                if(distance < 0)
+                {
+                    distance = distance * -1
+                }
+                res = distance * price
+
+                var intentMrono = Intent(this,OrderActivity::class.java)
+                intentMrono.putExtra("Time","HELLO")
+                intentMrono.putExtra("Origin",tmpOrigin.Name)
+                intentMrono.putExtra("Destination",tmpDestination.Name)
+                intentMrono.putExtra("Total",res)
+                startActivity(intentMrono)
+
+                //Toast.makeText(this,"Jemput : "+tmpOrigin.Name,Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this,"Tujuan : "+tmpDestination.Name,Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this,"Distance : "+distance.toString(),Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this,"Price : "+res.toString(),Toast.LENGTH_SHORT).show()
+
+
+            }
         }
 
 
