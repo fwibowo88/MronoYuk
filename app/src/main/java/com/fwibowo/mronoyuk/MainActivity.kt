@@ -3,44 +3,39 @@ package com.fwibowo.mronoyuk
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 var places = ArrayList<Place>();
 var discounts = ArrayList<Discount>();
-var generateSpinner = ArrayList<String>();
+var orders = ArrayList<Order>();
+var tmpSpinner = ArrayList<String>();
 
 
 fun GeneratePlaces()
 {
-    var place1 = Place(0.0, "UBAYA")
-    var place2 = Place(9.8, "TP1")
-    var place3 = Place(5.6, "PS ATOM")
-    var place4 = Place(6.2, "ITC")
-    var place5 = Place(8.3, "BG Junction")
-    var place6 = Place(11.5, "Ciputra World")
-    places.add(place1);
-    places.add(place2);
-    places.add(place3);
-    places.add(place4);
-    places.add(place5);
-    places.add(place6);
+    places.add(Place(0.0, "UBAYA"))
+    places.add(Place(9.8, "TP1"))
+    places.add(Place(5.6, "PS ATOM"))
+    places.add(Place(6.2, "ITC"))
+    places.add(Place(8.3, "BG Junction"))
+    places.add(Place(11.5, "Ciputra World"))
+    places.add(Place(3.2,"INDOMARET RUNGKUT"))
 }
 
 fun GenerateDiscount()
 {
-    var Disc1 = Discount("SBYHEMAT",15.0)
-    var Disc2 = Discount("SBYOKE",10.0)
-    var Disc3 = Discount("HEMATBGT",50.0)
-    discounts.add(Disc1)
-    discounts.add(Disc2)
-    discounts.add(Disc3)
+    discounts.add(Discount("SBYHEMAT",15.0))
+    discounts.add(Discount("SBYOKE",10.0))
+    discounts.add(Discount("HEMATBGT",50.0))
 }
 
 fun GenerateSpinner()
 {
     for (place in places)
     {
-        generateSpinner.add(place.Name)
+        tmpSpinner.add(place.Name)
     }
 }
 
@@ -64,29 +59,36 @@ fun calculateFare(price:Double, distance:Double, discount:Double):Double
     return result
 }
 
-fun initApp()
+fun loadAppData()
 {
     GeneratePlaces();
     GenerateSpinner();
-    val adapter
 }
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        initApp();
+        loadAppData()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        buttonMainHistory.setOnClickListener{
-            var intentHistory = Intent(this,HistoryActivity::class.java)
-            startActivity(intentHistory)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, tmpSpinner)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerMainFrom.adapter = adapter
 
+
+        buttonMainHistory.setOnClickListener{
+            
+            //var intentHistory = Intent(this,HistoryActivity::class.java)
+            //startActivity(intentHistory)
         }
 
         buttonMainMrono.setOnClickListener{
             var intentMrono =Intent(this,OrderActivity::class.java)
             startActivity(intentMrono)
         }
+
+
     }
+
 }
