@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
 
         buttonMainHistory.setOnClickListener{
-            
+
             //var intentHistory = Intent(this,HistoryActivity::class.java)
             //startActivity(intentHistory)
         }
