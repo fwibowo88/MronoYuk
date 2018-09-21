@@ -68,6 +68,7 @@ fun initApp()
 {
     GeneratePlaces();
     GenerateSpinner();
+    val adapter
 }
 
 class MainActivity : AppCompatActivity() {
