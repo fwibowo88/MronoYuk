@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity() {
                 intentMrono.putExtra("Time","HELLO")
                 intentMrono.putExtra("Origin",tmpOrigin.Name)
                 intentMrono.putExtra("Destination",tmpDestination.Name)
-                intentMrono.putExtra("Total",res)
+                intentMrono.putExtra("Total",res.toString())
                 startActivity(intentMrono)
 
                 //Toast.makeText(this,"Jemput : "+tmpOrigin.Name,Toast.LENGTH_SHORT).show()
