@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, tmpSpinner)
+        val adapterFrom = ArrayAdapter(this, android.R.layout.simple_spinner_item, tmpSpinner)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerMainFrom.adapter = adapter
 
