@@ -14,7 +14,7 @@ class HistoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
 
-        listViewHistory.adapter = ArrayAdapter(this, activity_history,orders)
+        listViewHistory.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, orders)
 
         /*listViewHistory.setOnItemClickListener{parent,view,position,id ->
             Toast.makeText(this,"${orders[position]}",Toast.LENGTH_SHORT).show()
