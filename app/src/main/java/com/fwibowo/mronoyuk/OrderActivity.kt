@@ -11,7 +11,7 @@ class OrderActivity : AppCompatActivity() {
         setContentView(R.layout.activity_order)
 
         val intentOrder = this.intent;
-        textViewOrderWaktu.text = "TBA"
+        textViewOrderWaktu.text = intentOrder.getStringExtra("Time")
         textViewOrderAsal.text = intentOrder.getStringExtra("Origin")
         textViewOrderTujuan.text = intentOrder.getStringExtra("Destination")
         textViewOrderTotal.text = intentOrder.getStringExtra("Total")

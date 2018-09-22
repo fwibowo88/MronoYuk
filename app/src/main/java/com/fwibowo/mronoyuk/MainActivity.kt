@@ -6,7 +6,8 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import java.time.LocalDateTime
+import java.text.SimpleDateFormat
+import java.util.*
 
 var places = ArrayList<Place>();
 var discounts = ArrayList<Discount>();
@@ -82,11 +83,12 @@ class MainActivity : AppCompatActivity() {
         spinnerMainTo.adapter = adapterTo
 
 
+
         buttonMainHistory.setOnClickListener{
-            Toast.makeText(this,spinnerMainFrom.selectedItem.toString().trim(),Toast.LENGTH_SHORT).show()
-            Toast.makeText(this,spinnerMainTo.selectedItem.toString().trim(),Toast.LENGTH_SHORT).show()
-            //var intentHistory = Intent(this,HistoryActivity::class.java)
-            //startActivity(intentHistory)
+            //Toast.makeText(this,spinnerMainFrom.selectedItem.toString().trim(),Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this,spinnerMainTo.selectedItem.toString().trim(),Toast.LENGTH_SHORT).show()
+            var intentHistory = Intent(this,HistoryActivity::class.java)
+            startActivity(intentHistory)
         }
 
         buttonMainMrono.setOnClickListener{
@@ -101,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
                 var tmpOrigin = Place(0.0,"UNKNOWN")
                 var tmpDestination = Place(0.0,"UNKNOWN")
-                var res = 0.0
+                var totalPrice = 0.0
                 var distance = 0.0
                 for(x in places)
                 {
@@ -122,20 +124,20 @@ class MainActivity : AppCompatActivity() {
                 {
                     distance = distance * -1
                 }
-                res = distance * price
+                totalPrice = distance * price
+
+                val formatter = SimpleDateFormat("yyyy-MM-dd hh:mm:ss a")
+                val currentTime_1 = Date()
+                val dateString = formatter.format(currentTime_1)
+
+                orders.add(Order(tmpOrigin.Name,tmpDestination.Name,distance,totalPrice,dateString))
 
                 var intentMrono = Intent(this,OrderActivity::class.java)
-                intentMrono.putExtra("Time","HELLO")
+                intentMrono.putExtra("Time",dateString)
                 intentMrono.putExtra("Origin",tmpOrigin.Name)
                 intentMrono.putExtra("Destination",tmpDestination.Name)
-                intentMrono.putExtra("Total",res.toString())
+                intentMrono.putExtra("Total",totalPrice.toString())
                 startActivity(intentMrono)
-
-                //Toast.makeText(this,"Jemput : "+tmpOrigin.Name,Toast.LENGTH_SHORT).show()
-                //Toast.makeText(this,"Tujuan : "+tmpDestination.Name,Toast.LENGTH_SHORT).show()
-                //Toast.makeText(this,"Distance : "+distance.toString(),Toast.LENGTH_SHORT).show()
-                //Toast.makeText(this,"Price : "+res.toString(),Toast.LENGTH_SHORT).show()
-
 
             }
         }
