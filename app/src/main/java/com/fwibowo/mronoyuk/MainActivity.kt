@@ -54,12 +54,6 @@ fun findDiscount(inDiscount:String):Double
     return res
 }
 
-fun calculateFare(price:Double, distance:Double, discount:Double):Double
-{
-
-    var result = price * distance - discount;
-    return result
-}
 
 fun loadAppData()
 {
@@ -82,11 +76,7 @@ class MainActivity : AppCompatActivity() {
         adapterTo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerMainTo.adapter = adapterTo
 
-
-
         buttonMainHistory.setOnClickListener{
-            //Toast.makeText(this,spinnerMainFrom.selectedItem.toString().trim(),Toast.LENGTH_SHORT).show()
-            //Toast.makeText(this,spinnerMainTo.selectedItem.toString().trim(),Toast.LENGTH_SHORT).show()
             var intentHistory = Intent(this,HistoryActivity::class.java)
             startActivity(intentHistory)
         }
@@ -131,6 +121,7 @@ class MainActivity : AppCompatActivity() {
                 val dateString = formatter.format(currentTime_1)
 
                 orders.add(Order(tmpOrigin.Name,tmpDestination.Name,distance,totalPrice,dateString))
+
 
                 var intentMrono = Intent(this,OrderActivity::class.java)
                 intentMrono.putExtra("Time",dateString)
