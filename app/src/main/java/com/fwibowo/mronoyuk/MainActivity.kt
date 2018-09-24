@@ -21,11 +21,11 @@ fun GeneratePlaces()
 {
     places.add(Place(0.0, "UBAYA"))
     places.add(Place(9.8, "TP1"))
-    places.add(Place(5.6, "PS ATOM"))
+    places.add(Place(5.6, "PS Atom"))
     places.add(Place(6.2, "ITC"))
     places.add(Place(8.3, "BG Junction"))
     places.add(Place(11.5, "Ciputra World"))
-    places.add(Place(3.2,"INDOMARET RUNGKUT"))
+    places.add(Place(3.2,"Indomaret Rungkut"))
 }
 
 fun GenerateDiscount()
@@ -43,24 +43,11 @@ fun GenerateSpinner()
     }
 }
 
-fun findDiscount(inDiscount:String):Double
-{
-    var res = 0.0
-    for(x in discounts)
-    {
-        if(inDiscount == x.Key)
-        {
-            res = x.Value;
-        }
-    }
-    return res
-}
-
-
 fun loadAppData()
 {
     GeneratePlaces();
     GenerateSpinner();
+    GenerateDiscount();
 }
 
 class MainActivity : AppCompatActivity() {
@@ -83,7 +70,23 @@ class MainActivity : AppCompatActivity() {
             startActivity(intentHistory)
         }
         buttonHomeCode.setOnClickListener {
-            Toast.makeText(this,"Selamat Promo " +editTextHomeCode.text.toString(),Toast.LENGTH_SHORT).show()
+            for(x in discounts)
+            {
+                /*if(editTextHomeCode.text.toString() == x.Key)
+                {
+                    count = 1
+                }*/
+                if(editTextHomeCode.text.toString().capitalize() == x.Key)
+                {
+                    Toast.makeText(this,"Selamat Promo " +editTextHomeCode.text.toString() + " Diterima",Toast.LENGTH_SHORT).show()
+                    editTextHomeCode.isEnabled = false
+                    buttonHomeCode.isEnabled = false
+                }
+                else
+                {
+                    Toast.makeText(this,"Kode tidak Valid !",Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         buttonMainMrono.setOnClickListener{
@@ -122,21 +125,9 @@ class MainActivity : AppCompatActivity() {
 
                 totalPrice = distance * price
 
-                /*if(editTextHomeCode.text.toString() != "")
-                {
-                    for(codeX in discounts)
-                    {
-                        if(codeX.Key == editTextHomeCode.text.toString())
-                        {
-                            totalPrice = totalPrice - (totalPrice*codeX.Value/100.0)
-                        }
-                    }
-                }*/
 
-                //round(totalPrice);
+
                 var fixPrice = totalPrice.roundToInt();
-
-
 
                 val formatter = SimpleDateFormat("yyyy-MM-dd hh:mm:ss a")
                 val currentTime_1 = Date()
