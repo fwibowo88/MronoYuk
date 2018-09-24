@@ -82,6 +82,9 @@ class MainActivity : AppCompatActivity() {
             var intentHistory = Intent(this,HistoryActivity::class.java)
             startActivity(intentHistory)
         }
+        buttonHomeCode.setOnClickListener {
+            Toast.makeText(this,"Selamat Promo " +editTextHomeCode.text.toString(),Toast.LENGTH_SHORT).show()
+        }
 
         buttonMainMrono.setOnClickListener{
             if(spinnerMainFrom.selectedItem.toString().trim() == spinnerMainTo.selectedItem.toString().trim())
