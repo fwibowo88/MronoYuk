@@ -8,6 +8,8 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.round
+import kotlin.math.roundToInt
 
 var places = ArrayList<Place>();
 var discounts = ArrayList<Discount>();
@@ -114,20 +116,37 @@ class MainActivity : AppCompatActivity() {
                 {
                     distance = distance * -1
                 }
+
                 totalPrice = distance * price
+
+                /*if(editTextHomeCode.text.toString() != "")
+                {
+                    for(codeX in discounts)
+                    {
+                        if(codeX.Key == editTextHomeCode.text.toString())
+                        {
+                            totalPrice = totalPrice - (totalPrice*codeX.Value/100.0)
+                        }
+                    }
+                }*/
+
+                //round(totalPrice);
+                var fixPrice = totalPrice.roundToInt();
+
+
 
                 val formatter = SimpleDateFormat("yyyy-MM-dd hh:mm:ss a")
                 val currentTime_1 = Date()
                 val dateString = formatter.format(currentTime_1)
 
-                orders.add(Order(tmpOrigin.Name,tmpDestination.Name,distance,totalPrice,dateString))
+                orders.add(Order(tmpOrigin.Name,tmpDestination.Name,distance,fixPrice,dateString))
 
 
                 var intentMrono = Intent(this,OrderActivity::class.java)
                 intentMrono.putExtra("Time",dateString)
                 intentMrono.putExtra("Origin",tmpOrigin.Name)
                 intentMrono.putExtra("Destination",tmpDestination.Name)
-                intentMrono.putExtra("Total",totalPrice.toString())
+                intentMrono.putExtra("Total",fixPrice.toString())
                 startActivity(intentMrono)
 
             }

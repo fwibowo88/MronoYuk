@@ -77,8 +77,31 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"></LinearLayout>
+                android:orientation="horizontal"
+                android:layout_margin="20px"
+                tools:layout_editor_absoluteX="20dp"
+                tools:layout_editor_absoluteY="226dp">
+
+                <EditText
+                    android:id="@+id/editTextHomeCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:ems="10"
+                    android:hint="Promo Code . . ."
+                    android:inputType="textPersonName" />
+
+                <Button
+                    android:id="@+id/buttonHomeCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Submit" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
