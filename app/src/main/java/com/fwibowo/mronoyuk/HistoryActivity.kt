@@ -27,21 +27,15 @@ class HistoryActivity : AppCompatActivity() {
         listViewHistory.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, tmpHistory)
 
         listViewHistory.setOnItemClickListener{parent,view,position,id ->
-            //Toast.makeText(this,"${tmpHistory[position]}",Toast.LENGTH_SHORT).show()
-            //Toast.makeText(this,position.toString(),Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Posisi : "+position.toString(),Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Jumlah Array : " +orders.count().toString(),Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Index Array 0 - List : " +orders[0].Time,Toast.LENGTH_SHORT).show()
 
             var intentListHistory = Intent(this,OrderActivity::class.java)
-            for(x in 0 .. orders.count())
-            {
-                if(orders[x].toString() == position.toString())
-                {
-                    intentListHistory.putExtra("Time",orders[x].Time)
-                    intentListHistory.putExtra("Origin",orders[x].From)
-                    intentListHistory.putExtra("Destination",orders[x].To)
-                    intentListHistory.putExtra("Total",orders[x].Price)
-                }
-                break;
-            }
+            intentListHistory.putExtra("Time", orders[position].Time)
+            intentListHistory.putExtra("Origin",orders[position].From)
+            intentListHistory.putExtra("Destination",orders[position].To)
+            intentListHistory.putExtra("Total",orders[position].Price.toString())
             startActivity(intentListHistory)
         }
 

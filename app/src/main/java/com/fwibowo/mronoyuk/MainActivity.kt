@@ -8,14 +8,13 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.round
 import kotlin.math.roundToInt
 
 var places = ArrayList<Place>();
 var discounts = ArrayList<Discount>();
 var orders = ArrayList<Order>();
-var tmpSpinner = ArrayList<String>();
 var price:Double = 3000.0
+var discValue:Double = 0.0
 
 fun GeneratePlaces()
 {
@@ -35,18 +34,22 @@ fun GenerateDiscount()
     discounts.add(Discount("HEMATBGT",50.0))
 }
 
-fun GenerateSpinner()
+fun FindDiscount(xCode : String):Double
 {
-    for (place in places)
+    var result = 0.0
+    for(x in discounts)
     {
-        tmpSpinner.add(place.Name)
+        if(xCode.capitalize() == x.Key)
+        {
+            result = x.Value;
+        }
     }
+    return result
 }
 
 fun loadAppData()
 {
     GeneratePlaces();
-    GenerateSpinner();
     GenerateDiscount();
 }
 
@@ -57,11 +60,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val adapterFrom = ArrayAdapter(this, android.R.layout.simple_spinner_item, tmpSpinner)
+        //FILL DATA TO SPINNER ORIGIN
+        val adapterFrom = ArrayAdapter(this, android.R.layout.simple_spinner_item, places)
         adapterFrom.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerMainFrom.adapter = adapterFrom
 
-        val adapterTo = ArrayAdapter(this, android.R.layout.simple_spinner_item, tmpSpinner)
+        //FILL DATA TO SPINNER DESTINATION
+        val adapterTo = ArrayAdapter(this, android.R.layout.simple_spinner_item, places)
         adapterTo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerMainTo.adapter = adapterTo
 
@@ -69,23 +74,15 @@ class MainActivity : AppCompatActivity() {
             var intentHistory = Intent(this,HistoryActivity::class.java)
             startActivity(intentHistory)
         }
+
         buttonHomeCode.setOnClickListener {
-            for(x in discounts)
+            discValue = FindDiscount(editTextHomeCode.text.toString());
+            if(discValue > 0) {
+                Toast.makeText(this,"Selamat Promo " +editTextHomeCode.text.toString() + " Diterima",Toast.LENGTH_SHORT).show()
+            }
+            else
             {
-                /*if(editTextHomeCode.text.toString() == x.Key)
-                {
-                    count = 1
-                }*/
-                if(editTextHomeCode.text.toString().capitalize() == x.Key)
-                {
-                    Toast.makeText(this,"Selamat Promo " +editTextHomeCode.text.toString() + " Diterima",Toast.LENGTH_SHORT).show()
-                    editTextHomeCode.isEnabled = false
-                    buttonHomeCode.isEnabled = false
-                }
-                else
-                {
-                    Toast.makeText(this,"Kode tidak Valid !",Toast.LENGTH_SHORT).show()
-                }
+                Toast.makeText(this,"Kode tidak Valid !",Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -103,6 +100,7 @@ class MainActivity : AppCompatActivity() {
                 var tmpDestination = Place(0.0,"UNKNOWN")
                 var totalPrice = 0.0
                 var distance = 0.0
+
                 for(x in places)
                 {
                     if(x.Name == origin)
@@ -125,6 +123,10 @@ class MainActivity : AppCompatActivity() {
 
                 totalPrice = distance * price
 
+                if(discValue > 0)
+                {
+                    totalPrice = totalPrice - (totalPrice * discValue / 100.0)
+                }
 
 
                 var fixPrice = totalPrice.roundToInt();
@@ -145,8 +147,5 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
-
-
     }
-
 }
